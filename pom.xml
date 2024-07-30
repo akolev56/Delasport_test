@@ -21,18 +21,21 @@
         <artifactId>selenium-webdriver</artifactId>
         <version>4.10.0</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.23.0</version>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-chrome-driver</artifactId>
         <version>4.23.0</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-firefox-driver -->
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-firefox-driver</artifactId>
+        <artifactId>selenium-devtools-v127</artifactId>
         <version>4.23.0</version>
     </dependency>
 
@@ -62,6 +65,17 @@
         <artifactId>junit-jupiter-api</artifactId>
         <version>5.10.3</version>
         <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jetbrains</groupId>
+        <artifactId>annotations</artifactId>
+        <version>20.1.0</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20210307</version>
     </dependency>
 
 

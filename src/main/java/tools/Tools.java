@@ -3,34 +3,21 @@ package tools;
 import dev.failsafe.internal.util.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+
+import java.time.Duration;
 
 import static tools.WebDriverManager.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Tools {
-
     /**
      * Build the web driver and set implicitlyWait and pageLoadTimeout
      */
     static synchronized public void buildDriver() {
-        webDriver();
-    }
-
-    /**
-     * Clear Browser cookies
-     */
-    static public synchronized void clearWebDriveCookies() {
-        getWebDriver().manage().deleteAllCookies();
-    }
-
-    /**
-     * @return Selenium Web Driver Actions
-     */
-    static public Actions actions() {
-        return new Actions(getWebDriver());
+        WebDriverManager.webDriver();
     }
 
     /**
@@ -43,16 +30,7 @@ public class Tools {
     }
 
     /**
-     * Clear field Element
-     *
-     * @param element the element you will clear
-     */
-    static public void clear(WebElement element) {
-        doAction(element, "clear", "");
-    }
-
-    /**
-     * Add data field on Element
+     * Add data field on Element and sent keys as String
      *
      * @param element the element you will add data
      */
@@ -61,26 +39,15 @@ public class Tools {
     }
 
     /**
-     * Get an attribute value from Element
-     *
-     * @param element the element you will get an attribute value
-     */
-    static public String getAttribute(WebElement element, String value) {
-        return doAction(element, "getAttribute", value);
-    }
-
-    /**
      * For more control over the Actions and for more visibility
      *
      * @param element The element you interact with
      * @param action  The action you going to do on the element
      * @param text    The text you want to input in the element
-     * @return the element Attribute value by Attribute name
      */
-    static public String doAction(WebElement element, String action, String text) {
+    static public void doAction(WebElement element, String action, String text) {
 
         int br = 0;
-        String result = null;
         while (br <= 5) {
             br++;
             try {
@@ -88,14 +55,8 @@ public class Tools {
                     case "click":
                         element.click();
                         break;
-                    case "clear":
-                        element.clear();
-                        break;
                     case "sendKeys":
                         element.sendKeys(text);
-                        break;
-                    case "getAttribute":
-                        result = element.getAttribute(text);
                         break;
                     default:
                         System.out.println("There is no such Action");
@@ -112,7 +73,6 @@ public class Tools {
                 }
             }
         }
-        return result;
     }
 
     /**
@@ -140,29 +100,38 @@ public class Tools {
     }
 
     /**
-     * Get the Element Text and verify that contains the right values
+     * Get the Actual Text and compare it to Expected Text
      *
-     * @param element The web element with the text
-     * @param text    The text value
+     * @param actualText   Actual text value
+     * @param expectedText Expected text value
      */
-    public void assertWebElementText(WebElement element, String text) {
+    public void assertTextsAreEqual(String actualText, String expectedText) {
         boolean isPresent = false;
         int br = 0;
         while (!isPresent && br <= 10) {
             try {
                 br++;
-                Assert.isTrue(element.getText().contains(text), "The WebElement contains: '" + element.getText() +
-                        "' The text '" + text + "' is not present on this Web Element, please check!");
+                Assert.isTrue(actualText.equals(expectedText), "The WebElement contains: '" + actualText +
+                        "' The text '" + expectedText + "' is not present on this Web Element, please check!");
                 isPresent = true;
             } catch (Exception e) {
-                Assert.isTrue(element.getText().contains(text), "The WebElement contains: '" + element.getText() +
-                        "' The text '" + text + "' is not present on this Web Element, please check!");
+                Assert.isTrue(actualText.equals(expectedText), "The WebElement contains: '" + actualText +
+                        "' The text '" + expectedText + "' is not present on this Web Element, please check!");
             }
+            System.out.println("Тhe web element value: '" + actualText + "' Equals the text: '" + expectedText + "'");
 
         }
     }
 
-
+    /**
+     * This method will verify that the web element is present in the page
+     *
+     * @param element = web element
+     */
+    public static void verifyWebElementPresent(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
 
 
 }
